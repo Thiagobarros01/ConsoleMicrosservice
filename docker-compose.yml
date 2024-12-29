@@ -16,5 +16,21 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  pedido-producer:
+    build:
+      context: ./PedidoProducer
+      dockerfile: Dockerfile
+    container_name: pedido-producer
+    depends_on:
+      - kafka
+
+  pedido-consumer:
+    build:
+      context: ./PedidoConsumer
+      dockerfile: Dockerfile
+    container_name: pedido-consumer
+    depends_on:
+      - kafka
